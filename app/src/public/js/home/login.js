@@ -1,11 +1,11 @@
-"use script";
+"use strict";
 
 // DOM -> Document Object Model 을 통해 제어한다.
+// 여기는 프론트엔드와 연결되어 있는 JavaScritp 파일이다.
 
 const id = document.querySelector("#id"),
   psword = document.querySelector("#psword"),
   loginBtn = document.querySelector("button");
-console.log(id, psword, loginBtn);
 
 loginBtn.addEventListener("click", login);
 
@@ -14,5 +14,23 @@ function login() {
     id: id.value,
     psword: psword.value,
   };
-  console.log(req);
+
+  fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(req), // 그냥 req 와는 다름. 문자열로 감싸져서 나옴. 이런 상태로 서버로 전송함.
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      if (res.success) {
+        location.href = "/";
+      } else {
+        alert(res.msg);
+      }
+    })
+    .catch((err) => {
+      console.error("로그인중 에러 발생 ");
+    });
 }
