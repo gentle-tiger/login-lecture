@@ -1,21 +1,20 @@
 "use strict";
 
-// DOM -> Document Object Model 을 통해 제어한다.
-// 여기는 프론트엔드와 연결되어 있는 JavaScritp 파일이다.
-
 const id = document.querySelector("#id"),
+  name = document.querySelector("#name"),
   psword = document.querySelector("#psword"),
-  loginBtn = document.querySelector("#button");
+  confirmPsword = document.querySelector("#confirm-psword"),
+  registerBtn = document.querySelector("#button");
 
-loginBtn.addEventListener("click", login);
-
-function login() {
+registerBtn.addEventListener("click", register);
+function register() {
   const req = {
     id: id.value,
+    name: name.value,
     psword: psword.value,
+    confirmPsword: confirmPsword.value,
   };
-
-  fetch("/login", {
+  fetch("/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,12 +24,12 @@ function login() {
     .then((res) => res.json())
     .then((res) => {
       if (res.success) {
-        location.href = "/";
+        location.href = "/login";
       } else {
         alert(res.msg);
       }
     })
     .catch((err) => {
-      console.error("로그인중 에러 발생 ");
+      console.error("회원가입 중 에러 발생 ");
     });
 }
