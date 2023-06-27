@@ -31,5 +31,14 @@ class UserStorage {
     }, {});
     return userInfo;
   }
+
+  static save(userInfo) {
+    // save(client)에서 client 를 userInfo로 받을 것이다.
+    const users = this.#users;
+    users.id.push(userInfo.id);
+    users.name.push(userInfo.name);
+    users.psword.push(userInfo.psword);
+    return { success: true };
+  }
 }
 module.exports = UserStorage;
