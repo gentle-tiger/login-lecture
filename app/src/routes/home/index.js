@@ -15,6 +15,7 @@ const ctrl = require("./home.ctrl");
 // 경로로 GET 요청이 들어오면, 다음 인자로 오는 함수를 실행하고 처리하는 라우트 핸들러이다.
 router.get("/", ctrl.output.home);
 router.get("/login", ctrl.output.login);
+router.get("/register", ctrl.output.register);
 router.post("/login", ctrl.process.login); // 로그인 기능을 초리해주기 때문에 process 라고 해주겠다.
 
 module.exports = router;

@@ -12,6 +12,9 @@ const output = {
   login: (req, res) => {
     res.render("home/login");
   },
+  register: (req, res) => {
+    res.render("home/register");
+  },
 };
 
 const process = {
@@ -20,8 +23,7 @@ const process = {
     // user는 body를 항상 들고 다니게 된다.
     const user = new User(req.body);
     const response = user.login();
-    console.log(response);
-    // return res.json(response); //json의 형태로 가져온다
+    return res.json(response); //json의 형태로 가져온다
   },
 };
 
