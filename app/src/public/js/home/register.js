@@ -13,7 +13,7 @@ function register() {
     return alert("아아디를 입력해주세요.");
   }
   if (psword.value !== confirmPsword.value) {
-    return alert("비밀번호가 일치하지 않습니다.");
+    return alert("비밀번호가 일치하지 않습니다");
   }
   const req = {
     id: id.value,
