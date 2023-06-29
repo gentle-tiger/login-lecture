@@ -25,11 +25,11 @@ const process = {
     const response = await user.login();
     return res.json(response); //json의 형태로 가져온다
   },
-  register: (req, res) => {
+  register: async (req, res) => {
     // User가 기본적으로  가지고 있도록 한다. User라는 클래스를  req.body를 넣어서 인스턴스화 한다.
     // user는 body를 항상 들고 다니게 된다.
     const user = new User(req.body);
-    const response = user.register();
+    const response = await user.register();
     return res.json(response); //json의 형태로 응답.
   },
 };

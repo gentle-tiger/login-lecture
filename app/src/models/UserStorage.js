@@ -16,8 +16,9 @@ class UserStorage {
     }, {});
     return userInfo;
   }
-
-  static getUsers(...fields) {
+  static #getUsers(data, isAll, fields) {
+    const users = JSON.parse(data);
+    if (isAll) return users;
     const newUsers = fields.reduce((newUsers, fields) => {
       if (users.hasOwnProperty(fields)) {
         newUsers[fields] = users[fields];
@@ -27,16 +28,33 @@ class UserStorage {
     return newUsers;
   }
 
-  static getUserInfo(id) {
-    return fs.readFile("./src/databases/users.json").then((data) => {
-      return this.#getUserInfo(data, id).catch(console.error);
-    });
+  static getUsers(isAll, ...fields) {
+    return fs
+      .readFile("./src/databases/users.json")
+      .then((data) => {
+        return this.#getUsers(data, isAll, fields);
+      })
+      .catch(console.error);
   }
 
-  static save(userInfo) {
+  static getUserInfo(id) {
+    return fs
+      .readFile("./src/databases/users.json")
+      .then((data) => {
+        return this.#getUserInfo(data, id);
+      })
+      .catch(console.error);
+  }
+  // json 파일 데이터 읽어오기 -> 추가하고 싶은 데이터 추가 -> 그 다음 데이터를 넣어준다.
+  static async save(userInfo) {
+    const users = await this.getUsers(true);
+    if (users.id.includes(userInfo.id)) {
+      throw "이미 존재하는 아이디입니다.";
+    }
     users.id.push(userInfo.id);
     users.name.push(userInfo.name);
     users.psword.push(userInfo.psword);
+    fs.writeFile("./src/databases/users.json", JSON.stringify(users));
     return { success: true };
   }
 }
