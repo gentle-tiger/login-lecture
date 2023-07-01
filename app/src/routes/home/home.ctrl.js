@@ -1,36 +1,47 @@
 "use strict";
 const User = require("../../models/User");
-// 이 함수들은 단순히 해당 페이지를 렌더링 해주는 함수이다.
-
-// home.ctrl.js 파일은 정의해 놓ㅇ느 객체를 내보내는 모듈로, 해당 모듈을 렌더링하는 함수들과 로그인 처리를 수행하는 함수를 정의한다.
+const logger = require("../../config/logger");
 const output = {
-  // home 함수는 res.render("home/index")를 호출하여 "home/index"라는 템플릿을 렌더링합니다.
   home: (req, res) => {
+    logger.info(`GET / 200 "홈 화면으로 이동"`);
     res.render("home/index");
   },
-  // login 함수는 res.render("home/login")를 호출하여 "home/login"이라는 템플릿을 렌더링합니다.
   login: (req, res) => {
+    logger.info(`GET /login 200 "로그인 화면으로 이동"`);
     res.render("home/login");
   },
   register: (req, res) => {
+    logger.info(`GET /register 200 "회원가입 화면으로 이동"`);
     res.render("home/register");
   },
 };
 
 const process = {
   login: async (req, res) => {
-    // User가 기본적으로  가지고 있도록 한다. User라는 클래스를  req.body를 넣어서 인스턴스화 한다.
-    // user는 body를 항상 들고 다니게 된다.
     const user = new User(req.body);
     const response = await user.login();
-    return res.json(response); //json의 형태로 가져온다
+    if (response.err)
+      logger.error(
+        `POST /login 200 "success : ${response.success}, msg${response.err}"`
+      );
+    else
+      logger.info(
+        `POST /login 200 "success : ${response.success}, msg${response.msg}"`
+      );
+    return res.json(response);
   },
   register: async (req, res) => {
-    // User가 기본적으로  가지고 있도록 한다. User라는 클래스를  req.body를 넣어서 인스턴스화 한다.
-    // user는 body를 항상 들고 다니게 된다.
     const user = new User(req.body);
     const response = await user.register();
-    return res.json(response); //json의 형태로 응답.
+    if (response.err)
+      logger.error(
+        `POST /register 200 "success : ${response.success}, msg${response.err}"`
+      );
+    else
+      logger.info(
+        `POST /register 200 "success : ${response.success}, msg${response.msg}"`
+      );
+    return res.json(response);
   },
 };
 

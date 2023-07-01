@@ -18,7 +18,7 @@ class User {
       }
       return { success: false, msg: "존재하지 않는 아이디입니다." };
     } catch (err) {
-      return { seccess: false, msg: err };
+      return { seccess: false, err };
     }
   }
 
@@ -29,7 +29,7 @@ class User {
       const res = await UserStorage.save(client);
       return res;
     } catch (err) {
-      return { success: false, msg: err };
+      return { success: false, err };
     }
   }
 }
